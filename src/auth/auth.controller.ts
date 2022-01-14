@@ -41,7 +41,6 @@ export class AuthController {
     @GetCurrentUserId() userId: number,
     @Res({ passthrough: true }) res: Response
   ) {
-    console.log(userId);
     await this.authService.logout(userId);
     res.clearCookie("access_token");
     res.clearCookie("refresh_token");
