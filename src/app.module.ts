@@ -4,7 +4,8 @@ import configuration from "@/config/configuration";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "@/auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
-import { AtGuard } from "./common/guards";
+import { AtGuard } from "@/common/guards";
+import { ProductModule } from "@/product/product.module";
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AtGuard } from "./common/guards";
       }),
     }),
     AuthModule,
+    ProductModule,
   ],
   providers: [
     {

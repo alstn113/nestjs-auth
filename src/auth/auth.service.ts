@@ -1,6 +1,5 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { InjectRepository } from "@nestjs/typeorm";
 import { AuthRepository } from "./auth.repository";
 import { AuthDto } from "./dto/auth.dto";
 import * as bcrypt from "bcrypt";
@@ -11,7 +10,6 @@ import { IsNull, Not } from "typeorm";
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(AuthRepository)
     private authRepository: AuthRepository,
     private configService: ConfigService,
     private jwtService: JwtService
@@ -68,7 +66,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>("auth.access_token_secret"),
-          expiresIn: 60 * 15, //15m
+          expiresIn: "15m",
         }
       ),
       this.jwtService.signAsync(
@@ -79,7 +77,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>("auth.refresh_token_secret"),
-          expiresIn: 60 * 60 * 24 * 7, // 7d
+          expiresIn: "7d",
         }
       ),
     ]);
