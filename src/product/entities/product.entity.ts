@@ -13,5 +13,5 @@ export class Product {
   price: number;
 
   @OneToMany(() => ProductImage, (image) => image.product)
-  images: ProductImage[];
+  image: ProductImage[];
 }

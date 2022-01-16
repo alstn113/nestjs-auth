@@ -28,18 +28,11 @@ export class ProductController {
   }
 
   @Post()
-  createProduct(@Body() body: ProductRequest) {
-    return this.productService.createProduct(body);
-  }
-
-  @Post("image")
   @UseInterceptors(FileInterceptor("image"))
-  async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    try {
-      const data = await this.productService.uploadImage(file);
-      return { message: `Image ${file.originalname} upload to S3`, data };
-    } catch (error) {
-      return { message: `Failed to upload image to S3: ${error.message}` };
-    }
+  async createProduct(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: ProductRequest
+  ) {
+    return await this.productService.createProduct(body, file);
   }
 }

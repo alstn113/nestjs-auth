@@ -6,7 +6,7 @@ export class ProductImage {
   @PrimaryColumn({ type: "char", length: 32 })
   id: string;
 
-  @ManyToOne(() => Product, (product) => product.images, {
+  @ManyToOne(() => Product, (product) => product.image, {
     nullable: false,
     onDelete: "CASCADE",
   })

@@ -5,14 +5,15 @@ import { Product } from "./entities/product.entity";
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
   findProducts() {
-    return this.find();
+    return this.find({ relations: ["image"] });
   }
 
   findProductById(productId: number) {
-    return this.findOne(productId);
+    return this.findOne(productId, { relations: ["image"] });
   }
 
-  createProduct(product: ProductRequest) {
-    return this.insert(product);
+  createProduct(dto: ProductRequest) {
+    const product = this.create(dto);
+    return this.save(product);
   }
 }
