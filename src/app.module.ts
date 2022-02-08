@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common";
+import { Module, ValidationPipe } from "@nestjs/common";
+import { APP_GUARD, APP_PIPE } from "@nestjs/core";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import configuration from "@/config/configuration";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "@/auth/auth.module";
-import { APP_GUARD } from "@nestjs/core";
 import { AtGuard } from "@/common/guards";
 import { ProductModule } from "@/product/product.module";
 
@@ -36,6 +36,10 @@ import { ProductModule } from "@/product/product.module";
     {
       provide: APP_GUARD,
       useClass: AtGuard,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
     },
   ],
 })

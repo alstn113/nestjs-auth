@@ -27,7 +27,7 @@ export class S3Service {
 
   async getObject(fileName: string) {
     try {
-      return await this.s3.getObject({
+      return this.s3.getObject({
         Bucket: this.bucket,
         Key: fileName,
       });

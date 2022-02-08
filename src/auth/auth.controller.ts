@@ -5,13 +5,15 @@ import { Tokens } from "./types/tokens.tpye";
 import { GetCurrentUser, GetCurrentUserId, Public } from "@/common/decorators";
 import { Response } from "express";
 import { RtGuard } from "@/common/guards";
+import { ApiTags } from "@nestjs/swagger";
 
-@Controller("/auth")
+@ApiTags("auth")
+@Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Post("/signin/local")
+  @Post("signin/local")
   async signinLocal(
     @Body() dto: AuthDto,
     @Res({ passthrough: true }) res: Response
@@ -31,12 +33,12 @@ export class AuthController {
   }
 
   @Public()
-  @Post("/signup/local")
+  @Post("signup/local")
   signupLocal(@Body() dto: AuthDto) {
     return this.authService.signupLocal(dto);
   }
 
-  @Post("/logout")
+  @Post("logout")
   async logout(
     @GetCurrentUserId() userId: number,
     @Res({ passthrough: true }) res: Response
@@ -48,7 +50,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Post("/refresh")
+  @Post("refresh")
   async refreshTokens(
     @GetCurrentUserId() userId: number,
     @GetCurrentUser("refreshToken") refreshToken: string,

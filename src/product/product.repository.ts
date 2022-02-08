@@ -5,7 +5,7 @@ import { Product } from "./entities/product.entity";
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
-  async findProductsByQueries(query: ProductFindQuery): Promise<Product[]> {
+  async findProductsByQueries(query: ProductFindQuery) {
     const START_PAGE = 1;
     const PRODUCT_PER_PAGE = [5, 10, 15];
     const ORDER_TYPE = {
