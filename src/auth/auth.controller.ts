@@ -5,15 +5,16 @@ import { Tokens } from "./types/tokens.tpye";
 import { GetCurrentUser, GetCurrentUserId, Public } from "@/common/decorators";
 import { Response } from "express";
 import { RtGuard } from "@/common/guards";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 
-@ApiTags("auth")
 @Controller("auth")
+@ApiTags("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
   @Post("signin/local")
+  @ApiOperation({ summary: "local 로그인", description: "local로 로그인함" })
   async signinLocal(
     @Body() dto: AuthDto,
     @Res({ passthrough: true }) res: Response
@@ -34,11 +35,19 @@ export class AuthController {
 
   @Public()
   @Post("signup/local")
+  @ApiOperation({
+    summary: "local 회원가입",
+    description: "local로 회원가입함",
+  })
   signupLocal(@Body() dto: AuthDto) {
     return this.authService.signupLocal(dto);
   }
 
   @Post("logout")
+  @ApiOperation({
+    summary: "로그아웃",
+    description: "로그아웃하고 토큰을 삭제",
+  })
   async logout(
     @GetCurrentUserId() userId: number,
     @Res({ passthrough: true }) res: Response
@@ -51,6 +60,10 @@ export class AuthController {
   @Public()
   @UseGuards(RtGuard)
   @Post("refresh")
+  @ApiOperation({
+    summary: "token 갱신",
+    description: "refresh토큰으로 access토큰과 refresh토큰 갱신",
+  })
   async refreshTokens(
     @GetCurrentUserId() userId: number,
     @GetCurrentUser("refreshToken") refreshToken: string,

@@ -9,18 +9,22 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ProductAddRequest } from "./dto/product-add-request.dto";
 import { ProductFindQuery } from "./dto/product-find-query.dto";
 import { ProductService } from "./product.service";
 
 @Public()
-@ApiTags("products")
 @Controller("products")
+@ApiTags("products")
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
+  @ApiOperation({
+    summary: "제품 검색",
+    description: "제품의 정보들을 검색한다",
+  })
   @ApiQuery({ name: "page", example: 1, required: false })
   @ApiQuery({
     name: "size",

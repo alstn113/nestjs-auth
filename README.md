@@ -18,3 +18,9 @@ yarn add @nestjs/swagger swagger-ui-express
 OpenApi decorator추가해줘야 swagger 잘 사용 가능
 이거 잘 적어주는게 협업할 때 중요할 듯
 공식문서 openapi 참고 https://docs.nestjs.com/openapi/introduction
+참고 https://blog.naver.com/pjt3591oo/222461534913
+@ApiTags("태그이름")는 controller에 붙임
+@ApiOperation({ summary: "요약", description: "설명" })은 @Get()이나 @Post()등에 붙임
+@ApiProperty()는 dto나 entity에 붙임
+@ApiQuery()나 @ApiParam @ApiBody()는 parameter들을 type으로 넣어줌 ex) @ApiQuery({ type: PostFilterDto })
+@ApiResponse()로 응답 결과를 나타낼 수 있음
