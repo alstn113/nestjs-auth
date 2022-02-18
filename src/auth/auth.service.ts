@@ -4,15 +4,15 @@ import { AuthRepository } from "./auth.repository";
 import { AuthDto } from "./dto/auth.dto";
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
-import { Tokens } from "@/auth/types/tokens.tpye";
+import { Tokens } from "@/auth/types/tokens.type";
 import { IsNull, Not } from "typeorm";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private authRepository: AuthRepository,
-    private configService: ConfigService,
-    private jwtService: JwtService
+    private readonly authRepository: AuthRepository,
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService
   ) {}
 
   async signinLocal(dto: AuthDto): Promise<Tokens> {

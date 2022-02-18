@@ -24,3 +24,5 @@ OpenApi decorator추가해줘야 swagger 잘 사용 가능
 @ApiProperty()는 dto나 entity에 붙임
 @ApiQuery()나 @ApiParam @ApiBody()는 parameter들을 type으로 넣어줌 ex) @ApiQuery({ type: PostFilterDto })
 @ApiResponse()로 응답 결과를 나타낼 수 있음
+
+// access_token은 header, refresh_token은 cookie 그리고 refresh_token을 hash해서 db에 저장

@@ -6,7 +6,7 @@ import { S3 } from "aws-sdk";
 export class S3Service {
   s3: S3;
   bucket: string;
-  constructor(private configService: ConfigService) {
+  constructor(private readonly configService: ConfigService) {
     this.s3 = new S3({
       accessKeyId: this.configService.get<string>("S3_ACCESS_KEY"),
       secretAccessKey: this.configService.get<string>("S3_SECRET_KEY"),
