@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { AuthService } from "@/auth/auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { Tokens } from "./types/tokens.type";
@@ -25,6 +25,11 @@ export class AuthController {
     const { access_token, refresh_token } = await this.authService.signinLocal(
       dto
     );
+    res.cookie("access_token", access_token, {
+      maxAge: 1000 * 60 * 60 * 1, // 1h
+      //maxAge: 1000 * 5, // 5s
+      httpOnly: true,
+    });
     res.cookie("refresh_token", refresh_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
       httpOnly: true,
@@ -52,6 +57,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response
   ) {
     await this.authService.logout(userId);
+    res.clearCookie("access_token");
     res.clearCookie("refresh_token");
   }
 
@@ -69,10 +75,20 @@ export class AuthController {
   ) {
     const { access_token, refresh_token } =
       await this.authService.refreshTokens(userId, refreshToken);
+    res.cookie("access_token", access_token, {
+      maxAge: 1000 * 60 * 60 * 1, // 1h
+      //maxAge: 1000 * 5, // 5s
+      httpOnly: true,
+    });
     res.cookie("refresh_token", refresh_token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
       httpOnly: true,
     });
     return { access_token, refresh_token };
+  }
+  // 테스트용
+  @Get("/")
+  async findUsers() {
+    return this.authService.findUsers();
   }
 }

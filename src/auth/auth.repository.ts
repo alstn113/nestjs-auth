@@ -4,6 +4,10 @@ import { AuthDto } from "@/auth/dto/auth.dto";
 
 @EntityRepository(Auth)
 export class AuthRepository extends Repository<Auth> {
+  findUsers() {
+    return this.find();
+  }
+
   findUserByEmail(email: string): Promise<Auth> {
     return this.findOne({ where: { email } });
   }

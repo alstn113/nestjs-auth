@@ -66,7 +66,8 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>("auth.access_token_secret"),
-          expiresIn: "15m",
+          //expiresIn: "5s",
+          expiresIn: "1h",
         }
       ),
       this.jwtService.signAsync(
@@ -87,5 +88,9 @@ export class AuthService {
   async updateRtHash(userId: number, rt: string) {
     const hash = await this.hashData(rt);
     await this.authRepository.update({ id: userId }, { hashedRt: hash });
+  }
+
+  async findUsers() {
+    return this.authRepository.findUsers();
   }
 }
