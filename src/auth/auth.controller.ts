@@ -10,13 +10,13 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 //TODO: 경로들의 타입 다시 고치기
 //TODO: swagger 정확하기 고치기
 
-@Controller("auth")
-@ApiTags("auth")
+@Controller("/auth")
+@ApiTags("/auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
-  @Post("signin/local")
+  @Post("/signin/local")
   @ApiOperation({ summary: "local 로그인", description: "local로 로그인함" })
   async signinLocal(
     @Body() dto: AuthDto,
@@ -26,8 +26,8 @@ export class AuthController {
       dto
     );
     res.cookie("access_token", access_token, {
-      maxAge: 1000 * 60 * 60 * 1, // 1h
-      //maxAge: 1000 * 5, // 5s
+      //maxAge: 1000 * 60 * 60 * 1, // 1h
+      maxAge: 1000 * 10, // 10s
       httpOnly: true,
     });
     res.cookie("refresh_token", refresh_token, {
@@ -38,7 +38,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post("signup/local")
+  @Post("/signup/local")
   @ApiOperation({
     summary: "local 회원가입",
     description: "local로 회원가입함",
@@ -47,7 +47,7 @@ export class AuthController {
     return this.authService.signupLocal(dto);
   }
 
-  @Post("logout")
+  @Post("/logout")
   @ApiOperation({
     summary: "로그아웃",
     description: "로그아웃하고 토큰을 삭제",
@@ -63,7 +63,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Post("refresh")
+  @Post("/refresh")
   @ApiOperation({
     summary: "token 갱신",
     description: "refresh토큰으로 access토큰과 refresh토큰 갱신",
@@ -76,8 +76,8 @@ export class AuthController {
     const { access_token, refresh_token } =
       await this.authService.refreshTokens(userId, refreshToken);
     res.cookie("access_token", access_token, {
-      maxAge: 1000 * 60 * 60 * 1, // 1h
-      //maxAge: 1000 * 5, // 5s
+      //maxAge: 1000 * 60 * 60 * 1, // 1h
+      maxAge: 1000 * 10, // 10s
       httpOnly: true,
     });
     res.cookie("refresh_token", refresh_token, {
@@ -86,7 +86,8 @@ export class AuthController {
     });
     return { access_token, refresh_token };
   }
-  // 테스트용
+
+  //TODO: 테스트용, 나중에 지우기
   @Get("/")
   async findUsers() {
     return this.authService.findUsers();
